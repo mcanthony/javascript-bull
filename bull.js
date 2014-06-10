@@ -1,7 +1,7 @@
 function run() {
     var count = "42";
     var countup = 0;
-    countup2 = 0;
+    var countup2 = 0;
     var groundLVL = 300;
     var triarray = new Array();
     var pointarray = new Array();
@@ -169,21 +169,13 @@ function run() {
         }
     }; //end of apply kinematics
     function jiggleshit(event) {
-        var totalOffsetX = 0;
-        var totalOffsetY = 0;
-        var mX = 0;
-        var mY = 0;
-        var currentElement = this;
-        do {
-            totalOffsetX += currentElement.offsetLeft;
-            totalOffsetY += currentElement.offsetTop;
-        }
-        while (currentElement = currentElement.offsetParent)
-        canvasX = event.pageX - totalOffsetX;
-        canvasY = event.pageY - totalOffsetY;
+        var rect = canvas.getBoundingClientRect();
+        var cx = event.clientX - rect.left;
+        var cy = event.clientY - rect.top;
         for (var i = 0; i < pointarray.length; i++) {
-            pointarray[i].vx += 120 * Math.cos(Math.atan((canvasY - pointarray[i].cy) / (canvasX - pointarray[i].cx)));
-            pointarray[i].vy += 120 * Math.sin(Math.atan((canvasY - pointarray[i].cy) / (canvasX - pointarray[i].cx)));
+            var ang = Math.atan2(  pointarray[i].cy-cy ,pointarray[i].cx-cx );
+            pointarray[i].vx = 120 * Math.cos(ang);
+            pointarray[i].vy = 120 * Math.sin(ang);
         };
     };
 
@@ -419,7 +411,5 @@ function run() {
     } //end of ADVANCE
 
 };
-
-
 
 run();
